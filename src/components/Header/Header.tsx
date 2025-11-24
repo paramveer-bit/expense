@@ -2,7 +2,9 @@
 import React, { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import AddTransactionModal from "./AddTransactionModal";
-
+import { Button } from "../ui/button";
+import { Upload } from "lucide-react";
+import BillUploadModal from "./BillUploadModel";
 export default function HeaderBar() {
   const searchParams = useSearchParams();
   const view = (searchParams?.get("view") || "").toString();
@@ -12,6 +14,7 @@ export default function HeaderBar() {
 
   const [openExpense, setOpenExpense] = useState(false);
   const [openIncome, setOpenIncome] = useState(false);
+  const [openBillUpload, setOpenBillUpload] = useState(false);
 
   function onSaved() {
     window.dispatchEvent(new CustomEvent("monify:expense:added"));
@@ -32,23 +35,36 @@ export default function HeaderBar() {
       </div>
 
       <div className="flex items-center gap-3">
-        <button
+        <Button
+          onClick={() => setOpenBillUpload(true)}
+          variant="outline"
+          className="gap-2 bg-transparent"
+        >
+          <Upload size={18} />
+          Upload Bill
+        </Button>
+        <Button
+          className="bg-blue-500 hover:bg-blue-600 gap-2"
           onClick={() => setOpenExpense(true)}
-          className="px-3 py-1 rounded bg-blue-600 text-white"
           aria-label="Add expense"
         >
           + Add Expense
-        </button>
+        </Button>
 
-        <button
+        <Button
+          className="bg-green-500 hover:bg-green-600 gap-2"
           onClick={() => setOpenIncome(true)}
-          className="px-3 py-1 rounded bg-green-600 text-white"
           aria-label="Add income"
         >
           + Add Income
-        </button>
+        </Button>
 
         {/* Modals */}
+        <BillUploadModal
+          open={openBillUpload}
+          onOpenChange={setOpenBillUpload}
+          handelUpload={onSaved}
+        />
         <AddTransactionModal
           kind="expense"
           open={openExpense}

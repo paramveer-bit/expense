@@ -18,7 +18,7 @@ export async function GET(req: Request) {
         await db();
         const session = await getServerSession(authOptions);
         if (!session?.user?.id) return NextResponse.json({ error: "Unauthenticated" }, { status: 401 });
-
+        console.log("Fetching categories for user:", session.user.id);
         const cats = await CategoryModel.find({ user: session.user.id });
         // return array (empty allowed). Normalize _id and budget.
         console.log("Fetched categories for user:", session.user.id, cats);

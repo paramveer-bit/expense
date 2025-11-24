@@ -399,7 +399,7 @@ export default function AddTransactionModal({
             )}
 
             {/* Updated Upload Bill Section (OCR enabled) */}
-            <div>
+            {/* <div>
               <label className="block text-sm mb-1">
                 Upload bill (optional)
               </label>
@@ -414,7 +414,7 @@ export default function AddTransactionModal({
                   Extracting text from bill…
                 </p>
               )}
-            </div>
+            </div> */}
           </>
         )}
 
