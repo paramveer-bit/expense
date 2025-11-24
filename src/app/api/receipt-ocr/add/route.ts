@@ -37,6 +37,7 @@ export async function POST(req: Request) {
         if (data.length === 0) {
             return NextResponse.json({ error: "No expenses provided" }, { status: 400 });
         }
+        console.log("Received expenses:", data);
 
         const userId = session.user.id;
         const expensesToInsert = data.map((expense: any) => ({
@@ -46,11 +47,13 @@ export async function POST(req: Request) {
             kind: expense.kind,
             date: expense.date,
             notes: expense.notes || "",
-            category: expense.categoryId ? new ObjectId(expense.categoryId) : null,
+            category: expense.category ? new ObjectId(expense.category) : null,
             currency: "INR",
             createdAt: new Date().toISOString(),
             paymentMethod: expense.paymentMethod || "other",
         }));
+
+        // console.log("Inserting expenses:", expensesToInsert);
 
         await TransactionModel.insertMany(expensesToInsert);
         return NextResponse.json({ message: "Expenses received" }, { status: 200 });
